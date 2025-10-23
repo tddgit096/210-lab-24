@@ -26,10 +26,10 @@ public:
     string get_color() const        { return color; }
 
    // write overloaded < operator for the std::list
-    bool operator<(Goat &goat) const{
+    bool operator<(const Goat &goat) const{
         return name<goat.get_name();// sort by name
     }
-    bool operator>(Goat &goat) const{
+    bool operator>(const Goat &goat) const{
         return name>goat.get_name();// sort by name
     }
 

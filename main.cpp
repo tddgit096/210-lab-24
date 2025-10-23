@@ -1,22 +1,22 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
-#include <list>
+#include <set>
 #include "Goat.h"
 using namespace std;
 
 const int SZ_NAMES = 200, SZ_COLORS = 25, MAX_AGE = 20;
 
-int select_goat(list<Goat> trip);
-void delete_goat(list<Goat> &trip);
-void add_goat(list<Goat> &trip, string [], string []);
-void display_trip(list<Goat> trip);
+int select_goat(set<Goat> trip);
+void delete_goat(set<Goat> &trip);
+void add_goat(set<Goat> &trip, string [], string []);
+void display_trip(set<Goat> trip);
 int main_menu();
 
 int main() {
     srand(time(0));
     bool again = true;
-    list<Goat> mainTrip;
+    set<Goat> mainTrip;
 
     // read & populate arrays for names and colors
     ifstream fin("names.txt");
@@ -67,12 +67,12 @@ int main_menu(){
     return input;
 }
 
-void add_goat(list<Goat> &trip, string name[], string colors[]){
-    trip.push_back(Goat(name[rand()%SZ_NAMES],rand()%(MAX_AGE+1),colors[rand()%SZ_COLORS]));//new goat with random values added.
+void add_goat(set<Goat> &trip, string name[], string colors[]){
+    trip.insert(Goat(name[rand()%SZ_NAMES],rand()%(MAX_AGE+1),colors[rand()%SZ_COLORS]));//new goat with random values added.
     cout<<"Goat Added!\n";
 }
 
-int select_goat(list<Goat> trip){
+int select_goat(set<Goat> trip){
     int input;
     display_trip(trip);
     cout<<"Select which goat:";
@@ -83,7 +83,8 @@ int select_goat(list<Goat> trip){
     return input-1;
 }
 
-void delete_goat(list<Goat> &trip){
+void delete_goat(set<Goat> &trip){
+    if(trip.empty()){cout<<"List is Empty. Terminating.\n"; return;}
     int input = select_goat(trip);
     auto it = trip.begin();
     advance(it,input); //found this in the geeksforgeeks resources.
@@ -91,8 +92,7 @@ void delete_goat(list<Goat> &trip){
 }
 
 
-void display_trip(list<Goat> trip){
-    //trip.sort();
+void display_trip(set<Goat> trip){
     int counter=1;
     cout<<"=====================\n";
     for(auto it = trip.begin(); it != trip.end(); it++){
